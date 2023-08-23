@@ -1,11 +1,11 @@
 import Foundation
 
 final class APIDataSession {
-    init(token: String, name: String) {
+    init(token: String, nick: String, name: String) {
         let task = URLSession.shared.webSocketTask(with: Self.url)
         self.task = task
         self.lines = AsyncThrowingStream { continuation in
-            task.delegate = APIDataReceiver(token: token, name: name, continuation: continuation)
+            task.delegate = APIDataReceiver(token: token, nick: nick, name: name, continuation: continuation)
             task.resume()
         }
     }

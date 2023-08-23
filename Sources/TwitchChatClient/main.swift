@@ -3,7 +3,7 @@ import TwitchChat
 import UserNotifications
 
 Task {
-    let chat = TwitchChat(token: CommandLine.arguments[1], name: "cocoatype")
+    let chat = TwitchChat(token: CommandLine.arguments[1], nick: "", name: "cocoatype")
     do {
         for try await message in chat.messages {
             print("\(message): \(message.text)")

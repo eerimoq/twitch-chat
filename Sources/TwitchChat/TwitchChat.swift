@@ -1,9 +1,9 @@
 import Foundation
 
 public final class TwitchChat {
-    public init(token: String, name: String) {
+    public init(token: String, nick: String, name: String) {
         messages = ChatMessageStream { continuation in
-            let session = APIDataSession(token: token, name: name)
+            let session = APIDataSession(token: token, nick: nick, name: name)
             Task.detached {
                 for try await line in session.lines {
                     let message = try Message(string: line)
