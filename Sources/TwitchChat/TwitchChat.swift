@@ -1,4 +1,5 @@
 import Foundation
+import os
 
 public final class TwitchChat {
     public init(token: String, nick: String, name: String) {
@@ -13,7 +14,7 @@ public final class TwitchChat {
                     } else if message.command == .ping {
                         try await session.send("PONG \(message.parameters.joined(separator: " "))")
                     } else {
-                        print(message)
+                        Logger().debug("Unknown message \(line)")
                     }
                 }
                 continuation.finish()
