@@ -7,6 +7,9 @@ final class APIDataSession {
         self.lines = AsyncThrowingStream { continuation in
             task.delegate = APIDataReceiver(token: token, nick: nick, name: name, continuation: continuation)
             task.resume()
+            continuation.onTermination = { _ in
+                task.cancel()
+            }
         }
     }
 

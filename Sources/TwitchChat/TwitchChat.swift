@@ -5,7 +5,7 @@ public final class TwitchChat {
     public init(token: String, nick: String, name: String) {
         messages = ChatMessageStream { continuation in
             let session = APIDataSession(token: token, nick: nick, name: name)
-            Task.detached {
+            let task = Task.init {
                 for try await line in session.lines {
                     let message = try Message(string: line)
 
@@ -18,6 +18,9 @@ public final class TwitchChat {
                     }
                 }
                 continuation.finish()
+            }
+            continuation.onTermination  = { _ in
+                task.cancel()
             }
         }
     }
