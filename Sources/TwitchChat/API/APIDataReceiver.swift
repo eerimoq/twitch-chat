@@ -1,4 +1,5 @@
 import Foundation
+import os
 
 final class APIDataReceiver: NSObject, URLSessionWebSocketDelegate {
     init(token: String, nick: String, name: String, continuation: AsyncThrowingStream<String, Error>.Continuation) {
@@ -25,11 +26,13 @@ final class APIDataReceiver: NSObject, URLSessionWebSocketDelegate {
                 readMessage(from: task)
             } catch {
                 continuation.finish(throwing: error)
+                Logger().debug("twitch-chat: Read message error \(error).")
             }
         }
     }
 
     func urlSession(_ session: URLSession, webSocketTask: URLSessionWebSocketTask, didOpenWithProtocol protocol: String?) {
+        Logger().debug("twitch-chat: Connected.")
         readMessage(from: webSocketTask)
         webSocketTask.send(.string("PASS oauth:\(token)"), completionHandler: { _ in })
         webSocketTask.send(.string("NICK \(nick)"), completionHandler: { _ in })
@@ -38,9 +41,15 @@ final class APIDataReceiver: NSObject, URLSessionWebSocketDelegate {
     }
 
     func urlSession(_ session: URLSession, webSocketTask: URLSessionWebSocketTask, didCloseWith closeCode: URLSessionWebSocketTask.CloseCode, reason: Data?) {
+        Logger().debug("twitch-chat: Disconnected.")
         continuation.finish()
     }
 
+    func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
+        Logger().debug("twitch-chat: Completed.")
+        continuation.finish()
+    }
+    
     private let token: String
     private let nick: String
     private let name: String
