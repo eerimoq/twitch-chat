@@ -14,7 +14,7 @@ public final class TwitchChat {
                     } else if message.command == .ping {
                         try await session.send("PONG \(message.parameters.joined(separator: " "))")
                     } else {
-                        Logger().debug("twitch-chat: Unknown message \(line)")
+                        // Logger().debug("twitch: chat: Unknown message \(line)")
                     }
                 }
                 continuation.finish()
