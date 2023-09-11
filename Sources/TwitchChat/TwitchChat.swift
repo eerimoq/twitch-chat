@@ -6,16 +6,18 @@ public final class TwitchChat {
         messages = ChatMessageStream { continuation in
             let session = APIDataSession(token: token, nick: nick, name: name)
             let task = Task.init {
-                for try await line in session.lines {
-                    let message = try Message(string: line)
+                do {
+                    for try await line in session.lines {
+                        let message = try Message(string: line)
 
-                    if let chatMessage = ChatMessage(message) {
-                        continuation.yield(chatMessage)
-                    } else if message.command == .ping {
-                        try await session.send("PONG \(message.parameters.joined(separator: " "))")
-                    } else {
-                        // Logger().debug("twitch: chat: Unknown message \(line)")
+                        if let chatMessage = ChatMessage(message) {
+                            continuation.yield(chatMessage)
+                        } else if message.command == .ping {
+                            try await session.send("PONG \(message.parameters.joined(separator: " "))")
+                        }
                     }
+                } catch {
+                    Logger().debug("twitch: chat: Ended with error \(error)")
                 }
                 continuation.finish()
             }
