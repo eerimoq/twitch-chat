@@ -1,7 +1,7 @@
 import Foundation
 
 enum MessageTagStringParser {
-    static func tags(from string: Substring) -> [String: String] {
+    static func tags(from string: String) -> [String: String] {
         let tagsString = string.removingPrefix("@")
         let tagSpecifiers = tagsString.split(separator: ";")
         let tagPairs = tagSpecifiers.compactMap { Self.tagKeyAndValue(from: $0) }

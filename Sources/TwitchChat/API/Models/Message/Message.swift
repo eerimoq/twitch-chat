@@ -7,7 +7,7 @@ struct Message {
     let parameters: [String]
 
     init(string: String) throws {
-        var parts = string.split(separator: " ")
+        var parts = string.components(separatedBy: .whitespaces)
 
         if let tagsPart = parts.first, tagsPart.hasPrefix("@") {
             tags = MessageTagStringParser.tags(from: tagsPart)
@@ -28,7 +28,7 @@ struct Message {
         parameters = Self.parameters(from: parts)
     }
 
-    private static func parameters(from parts: [Substring]) -> [String] {
+    private static func parameters(from parts: [String]) -> [String] {
         var parameters = [String]()
         for index in (parts.startIndex..<parts.endIndex) {
             let part = parts[index]
