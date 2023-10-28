@@ -6,7 +6,9 @@ public struct Emote {
 
     public var imageURL: URL {
         get throws {
-            guard let url = URL(string: "https://static-cdn.jtvnw.net/emoticons/v1/\(identifier)/2.0") else { throw EmoteError.invalidImageURL }
+            guard let url = URL(string: "https://static-cdn.jtvnw.net/emoticons/v2/\(identifier)/default/dark/3.0") else {
+                throw EmoteError.invalidImageURL
+            }
             return url
         }
     }
