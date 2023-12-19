@@ -34,9 +34,11 @@ final class APIDataReceiver: NSObject, URLSessionWebSocketDelegate {
     func urlSession(_ session: URLSession, webSocketTask: URLSessionWebSocketTask, didOpenWithProtocol protocol: String?) {
         Logger().debug("twitch: chat: Connected.")
         readMessage(from: webSocketTask)
+        webSocketTask.send(.string("CAP REQ :twitch.tv/membership"), completionHandler: { _ in })
+        webSocketTask.send(.string("CAP REQ :twitch.tv/tags"), completionHandler: { _ in })
+        webSocketTask.send(.string("CAP REQ :twitch.tv/commands"), completionHandler: { _ in })
         webSocketTask.send(.string("PASS oauth:\(token)"), completionHandler: { _ in })
         webSocketTask.send(.string("NICK \(nick)"), completionHandler: { _ in })
-        webSocketTask.send(.string("CAP REQ :twitch.tv/tags"), completionHandler: { _ in })
         webSocketTask.send(.string("JOIN #\(name)"), completionHandler: { _ in })
     }
 

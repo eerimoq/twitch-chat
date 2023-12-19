@@ -21,7 +21,9 @@ struct Message {
 
         guard let commandPart = parts.first else { throw MessageError.missingCommand(string) }
         let commandString = String(commandPart)
-        guard let command = Command(rawValue: commandString) else { throw MessageError.invalidCommand(commandString) }
+        guard let command = Command(rawValue: commandString) else {
+            throw MessageError.invalidCommand(commandString)
+        }
         self.command = command
         parts.removeFirst()
 

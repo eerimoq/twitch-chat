@@ -19,7 +19,7 @@ public enum Command: String {
     case list = "LIST"
     case invite = "INVITE"
     case kick = "KICK"
-    
+
     // server commands
     case messageOfTheDay = "MOTD"
     case version = "VERSION"
@@ -35,17 +35,21 @@ public enum Command: String {
     // messages
     case privateMessage = "PRIVMSG"
     case notice = "NOTICE"
+    case roomState = "ROOMSTATE"
+    case userNotice = "USERNOTICE"
+    case clearChat = "CLEARCHAT"
+    case clearMsg = "CLEARMSG"
 
     // user queries
     case who = "WHO"
     case whois = "WHOIS"
-    
+
     // operator commands
     case kill = "KILL"
     case rehash = "REHASH"
     case restart = "RESTART"
     case serverQuit = "SQUIT"
-    
+
     // optional
     case away = "AWAY"
     case userHost = "USERHOST"
