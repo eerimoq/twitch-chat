@@ -8,10 +8,12 @@ public struct ChatMessage {
 
         var announcement = false
         var firstMessage = false
+        var subscriber = false
 
         switch message.command {
         case .privateMessage:
             firstMessage = message.first_message == "1"
+            subscriber = message.subscriber == "1"
         case .userNotice:
             announcement = message.message_id == "announcement"
         default:
@@ -25,6 +27,7 @@ public struct ChatMessage {
         self.senderColor = message.color
         self.announcement = announcement
         self.firstMessage = firstMessage
+        self.subscriber = subscriber
     }
 
     public let channel: String
@@ -34,6 +37,7 @@ public struct ChatMessage {
     public let text: String
     public let announcement: Bool
     public let firstMessage: Bool
+    public let subscriber: Bool
 }
 
 private extension Message {
@@ -63,5 +67,9 @@ private extension Message {
 
     var first_message: String? {
         tags["first-msg"]
+    }
+    
+    var subscriber: String? {
+        tags["subscriber"]
     }
 }
