@@ -1,12 +1,12 @@
 import Foundation
 
-struct Message {
+public struct Message {
     let tags: [String: String]
     let sourceString: String?
     let command: Command
     let parameters: [String]
 
-    init(string: String) throws {
+    public init(string: String) throws {
         var parts = string.components(separatedBy: .whitespaces)
 
         if let tagsPart = parts.first, tagsPart.hasPrefix("@") {

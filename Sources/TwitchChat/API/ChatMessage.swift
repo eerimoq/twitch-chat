@@ -1,5 +1,5 @@
 public struct ChatMessage {
-    init?(_ message: Message) {
+    public init?(_ message: Message) {
         guard message.parameters.count == 2,
               let channel = message.parameters.first,
               let text = message.parameters.last,
