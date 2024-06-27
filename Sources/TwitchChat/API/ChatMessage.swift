@@ -1,4 +1,14 @@
 public struct ChatMessage {
+    public let channel: String
+    public let emotes: [Emote]
+    public let sender: String
+    public let senderColor: String?
+    public let text: String
+    public let announcement: Bool
+    public let firstMessage: Bool
+    public let subscriber: Bool
+    public let moderator: Bool
+
     public init?(_ message: Message) {
         guard message.parameters.count == 2,
               let channel = message.parameters.first,
@@ -9,13 +19,15 @@ public struct ChatMessage {
         var announcement = false
         var firstMessage = false
         var subscriber = false
+        var moderator = false
 
         switch message.command {
         case .privateMessage:
             firstMessage = message.first_message == "1"
             subscriber = message.subscriber == "1"
+            moderator = message.moderator == "1"
         case .userNotice:
-            announcement = message.message_id == "announcement"
+            announcement = message.messageId == "announcement"
         default:
             return nil
         }
@@ -28,16 +40,8 @@ public struct ChatMessage {
         self.announcement = announcement
         self.firstMessage = firstMessage
         self.subscriber = subscriber
+        self.moderator = moderator
     }
-
-    public let channel: String
-    public let emotes: [Emote]
-    public let sender: String
-    public let senderColor: String?
-    public let text: String
-    public let announcement: Bool
-    public let firstMessage: Bool
-    public let subscriber: Bool
 }
 
 private extension Message {
@@ -61,7 +65,7 @@ private extension Message {
         return Emote.emotes(from: emoteString)
     }
 
-    var message_id: String? {
+    var messageId: String? {
         tags["msg-id"]
     }
 
@@ -71,5 +75,9 @@ private extension Message {
     
     var subscriber: String? {
         tags["subscriber"]
+    }
+
+    var moderator: String? {
+        tags["mod"]
     }
 }
