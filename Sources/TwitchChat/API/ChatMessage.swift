@@ -1,6 +1,7 @@
 public struct ChatMessage {
     public let channel: String
     public let emotes: [Emote]
+    public let badges: [String]
     public let sender: String
     public let senderColor: String?
     public let text: String
@@ -34,6 +35,7 @@ public struct ChatMessage {
 
         self.channel = channel
         self.emotes = message.emotes
+        self.badges = message.badges
         self.text = text
         self.sender = sender
         self.senderColor = message.color
@@ -63,6 +65,13 @@ private extension Message {
     var emotes: [Emote] {
         guard let emoteString = tags["emotes"] else { return [] }
         return Emote.emotes(from: emoteString)
+    }
+    
+    var badges: [String] {
+        guard let badges = tags["badges"] else {
+            return []
+        }
+        return badges.split(separator: ",").map({String($0)})
     }
 
     var messageId: String? {
