@@ -3,12 +3,14 @@ public struct ChatMessage {
     public let emotes: [Emote]
     public let badges: [String]
     public let sender: String
+    public let userId: String?
     public let senderColor: String?
     public let text: String
     public let announcement: Bool
     public let firstMessage: Bool
     public let subscriber: Bool
     public let moderator: Bool
+    public let turbo: Bool
 
     public init?(_ message: Message) {
         guard message.parameters.count == 2,
@@ -21,12 +23,14 @@ public struct ChatMessage {
         var firstMessage = false
         var subscriber = false
         var moderator = false
+        var turbo = false
 
         switch message.command {
         case .privateMessage:
             firstMessage = message.first_message == "1"
             subscriber = message.subscriber == "1"
             moderator = message.moderator == "1"
+            turbo = message.turbo == "1"
         case .userNotice:
             announcement = message.messageId == "announcement"
         default:
@@ -38,11 +42,13 @@ public struct ChatMessage {
         self.badges = message.badges
         self.text = text
         self.sender = sender
+        self.userId = message.userId
         self.senderColor = message.color
         self.announcement = announcement
         self.firstMessage = firstMessage
         self.subscriber = subscriber
         self.moderator = moderator
+        self.turbo = turbo
     }
 }
 
@@ -56,6 +62,10 @@ private extension Message {
         } else {
             return nil
         }
+    }
+
+    var userId: String? {
+        tags["user-id"]
     }
 
     var color: String? {
@@ -88,5 +98,9 @@ private extension Message {
 
     var moderator: String? {
         tags["mod"]
+    }
+
+    var turbo: String? {
+        tags["turbo"]
     }
 }
