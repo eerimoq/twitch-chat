@@ -11,6 +11,7 @@ public struct ChatMessage {
     public let subscriber: Bool
     public let moderator: Bool
     public let turbo: Bool
+    public let bits: String?
 
     public init?(_ message: Message) {
         guard message.parameters.count == 2,
@@ -49,6 +50,7 @@ public struct ChatMessage {
         self.subscriber = subscriber
         self.moderator = moderator
         self.turbo = turbo
+        self.bits = message.bits
     }
 }
 
@@ -102,5 +104,9 @@ private extension Message {
 
     var turbo: String? {
         tags["turbo"]
+    }
+    
+    var bits: String? {
+        tags["bits"]
     }
 }
