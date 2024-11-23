@@ -3,8 +3,8 @@ import Foundation
 public struct Message {
     let tags: [String: String]
     let sourceString: String?
-    let command: Command
-    let parameters: [String]
+    public let command: Command
+    public let parameters: [String]
 
     public init(string: String) throws {
         var parts = string.components(separatedBy: .whitespaces)
