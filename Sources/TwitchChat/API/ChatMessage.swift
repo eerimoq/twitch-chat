@@ -1,4 +1,5 @@
 public struct ChatMessage {
+    public let id: String?
     public let channel: String
     public let emotes: [Emote]
     public let badges: [String]
@@ -40,6 +41,7 @@ public struct ChatMessage {
             return nil
         }
 
+        self.id = message.id
         self.channel = channel
         self.emotes = message.emotes
         self.badges = message.badges
@@ -92,6 +94,10 @@ private extension Message {
 
     var messageId: String? {
         tags["msg-id"]
+    }
+    
+    var id: String? {
+        tags["id"]
     }
 
     var first_message: String? {
